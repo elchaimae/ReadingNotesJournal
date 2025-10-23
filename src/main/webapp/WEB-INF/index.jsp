@@ -27,7 +27,6 @@
     <div class="book-list">
   <c:forEach var="book" items="${bookList}">
     <div class="book-card">
-      <!-- ✅ ここに > を忘れない -->
       <img src="${pageContext.request.contextPath}/images/${book.booksImage}" alt="${book.title}">
 
       <!-- タイトル -->
