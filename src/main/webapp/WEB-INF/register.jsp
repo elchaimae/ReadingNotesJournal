@@ -15,7 +15,8 @@
     <div class="form-container">
 
       <form action="${pageContext.request.contextPath}/RegisterServlet" 
-            method="post" enctype="multipart/form-data" class="register-form">
+      method="post" class="register-form">
+      
 
         <!-- 左側：本の基本情報 -->
         <div class="form-left">
@@ -118,12 +119,19 @@
             <input type="date" name="end_date">
           </div>
 
-          <div class="form-row">
+              <div class="form-row">
             <label>
               <img src="${pageContext.request.contextPath}/images/pencil.png" alt="" class="icon-pencil">
-              画像を追加
+              表紙画像を選択
             </label>
-            <input type="file" name="image">
+            <select name="books_image">
+              <option value="">選択してください</option>
+              <option value="morocco.png" ${book.booksImage == 'morocco.png' ? 'selected' : ''}>アルマグリブ</option>
+              <option value="English.png" ${book.booksImage == 'English.png' ? 'selected' : ''}>OneTwoEnglish</option>
+              <option value="witch.png" ${book.booksImage == 'witch.png' ? 'selected' : ''}>星を辿る魔女の道標</option>
+              <option value="sword.png" ${book.booksImage == 'sword.png' ? 'selected' : ''}>剣の遣い</option>
+              <option value="ribirth.png" ${book.booksImage == 'ribirth.png.png' ? 'selected' : ''}>再生の記録</option>
+            </select>
           </div>
 
  	<!-- 本の画像の中にメモを入力 -->
@@ -168,4 +176,3 @@
 </body>
 </html>
 	
-

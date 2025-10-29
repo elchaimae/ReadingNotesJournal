@@ -14,7 +14,7 @@ function handleBookAction(select, bookId) {
     select.value = "";
   } else if (action === "edit") {
     // 編集ページへ
-    window.location.href = `${window.location.origin}/ReadingNotesJournal/editBook.jsp?id=${bookId}`;
+    window.location.href = `${window.location.origin}/ReadingNotesJournal/EditServlet?id=${bookId}`;
   }
 }
 
@@ -30,13 +30,14 @@ function confirmDelete() {
   modal.style.display = "none";
 
   // Servletに削除リクエスト送信
-  fetch(`${window.location.origin}/ReadingNotesJournal/DeleteBookServlet?id=${bookId}`, {
+  fetch(`${window.location.origin}/ReadingNotesJournal/DeleteServlet?id=${bookId}`, {
     method: "POST"
   })
   .then(response => {
     if (response.ok) {
       // 成功 → トップ画面をリロード
-      window.location.href = `${window.location.origin}/ReadingNotesJournal/index.jsp`;
+	  window.location.href = `${window.location.origin}/ReadingNotesJournal/TopServlet`;
+
     } else {
       alert("削除に失敗しました。");
     }

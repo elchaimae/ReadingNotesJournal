@@ -1,27 +1,19 @@
 package servlet;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
 
 import dao.BookDAO;
 import model.Book;
 
 @WebServlet("/RegisterServlet")
-@MultipartConfig(
-	    fileSizeThreshold = 1024 * 1024 * 2,   // メモリ上保持 2MB
-	    maxFileSize = 1024 * 1024 * 20,        // 1ファイル最大 20MB
-	    maxRequestSize = 1024 * 1024 * 100     // 全体最大 100MB
-	)
+
 public class RegisterServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -56,35 +48,21 @@ public class RegisterServlet extends HttpServlet {
         String memo = request.getParameter("memo");
         String createDay = request.getParameter("date");
 
-        // ==== 画像アップロード ====
-        Part filePart = request.getPart("image");
-        String fileName = null;
-
-        if (filePart != null && filePart.getSize() > 0) {
-            // ファイル名を取得
-            fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-
-            // 保存先（/webapp/images）
-            String uploadPath = getServletContext().getRealPath("/images");
-            File uploadDir = new File(uploadPath);
-            if (!uploadDir.exists()) uploadDir.mkdirs();
-
-            // ファイル保存
-            filePart.write(uploadPath + File.separator + fileName);
-        }
-
+     // finished_dayが空の場合はnullを設定
+        String finishedDay = (endDate != null && !endDate.isEmpty()) ? endDate : null;
+        
         // ==== Book オブジェクトに格納 ====
         Book book = new Book();
         book.setTitle(title);
 
         // 出版年（ 年だけ抽出）
+     // 出版年（日付または文字列としてそのまま保存）
         if (yearStr != null && !yearStr.isEmpty()) {
-            try {
-                book.setPublishedYear(Integer.parseInt(yearStr.substring(0, 4)));
-            } catch (Exception e) {
-                book.setPublishedYear(0);
-            }
+            book.setPublishedYear(yearStr.trim());
+        } else {
+            book.setPublishedYear(null);
         }
+
 
         book.setGenreName(genre);
         book.setReviewTag(emotion);
@@ -101,9 +79,10 @@ public class RegisterServlet extends HttpServlet {
         book.setProgress(progress);
 
         book.setStartedDay(startDate);
-        book.setFinishedDay(endDate);
+        book.setFinishedDay(finishedDay);
         book.setText(memo);
         book.setCreateDay(createDay);
+        String fileName = request.getParameter("books_image");
         book.setBooksImage(fileName);
 
         // ==== DB登録 ====

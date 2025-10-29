@@ -1,9 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>新規登録 - Reading Notes Journal</title>
+  <title>編集 - Reading Notes Journal</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 
@@ -14,28 +15,31 @@
   <main class="register-main">
     <div class="form-container">
 
-      <form action="${pageContext.request.contextPath}/RegisterBookServlet" 
-            method="post" enctype="multipart/form-data" class="register-form">
+      <form action="${pageContext.request.contextPath}/EditServlet" 
+            method="post" class="register-form">
+        
+        <!-- 編集対象のIDを隠して送信 -->
+        <input type="hidden" name="id" value="${book.id}">
 
         <!-- 左側：本の基本情報 -->
         <div class="form-left">
+
           <div class="form-row">
             <label>
               <img src="${pageContext.request.contextPath}/images/pencil.png" alt="" class="icon-pencil">
               本のタイトル
             </label>
-            <input type="text" name="title" required>
+            <input type="text" name="title" value="${book.title}" required>
           </div>
 
           <div class="form-row">
-		  <label>
-		    <img src="${pageContext.request.contextPath}/images/pencil.png" alt="" class="icon-pencil">
-		    出版年
-		  </label>
-		  <input type="date" name="year">
-		 </div>
-		          
-
+            <label>
+              <img src="${pageContext.request.contextPath}/images/pencil.png" alt="" class="icon-pencil">
+              出版年
+            </label> 
+            	<input type="date" name="published_year"value="${book.publishedYear != null ? book.publishedYear.substring(0,10) : ''}">
+          </div>
+	
           <div class="form-row">
             <label>
               <img src="${pageContext.request.contextPath}/images/pencil.png" alt="" class="icon-pencil">
@@ -43,16 +47,16 @@
             </label>
             <select name="genre">
               <option value="">選択してください</option>
-              <option>ミステリー</option>
-              <option>SF</option>
-              <option>歴史</option>
-              <option>恋愛</option>
-              <option>ファンタジー</option>
-              <option>ホラー</option>
-              <option>ノンフィクション</option>
-              <option>文学</option>
-              <option>自己啓発</option>
-              <option>ビジネス</option>
+              <option value="ミステリー" ${book.genreName == 'ミステリー' ? 'selected' : ''}>ミステリー</option>
+              <option value="SF" ${book.genreName == 'SF' ? 'selected' : ''}>SF</option>
+              <option value="歴史" ${book.genreName == '歴史' ? 'selected' : ''}>歴史</option>
+              <option value="恋愛" ${book.genreName == '恋愛' ? 'selected' : ''}>恋愛</option>
+              <option value="ファンタジー" ${book.genreName == 'ファンタジー' ? 'selected' : ''}>ファンタジー</option>
+              <option value="ホラー" ${book.genreName == 'ホラー' ? 'selected' : ''}>ホラー</option>
+              <option value="ノンフィクション" ${book.genreName == 'ノンフィクション' ? 'selected' : ''}>ノンフィクション</option>
+              <option value="文学" ${book.genreName == '文学' ? 'selected' : ''}>文学</option>
+              <option value="自己啓発" ${book.genreName == '自己啓発' ? 'selected' : ''}>自己啓発</option>
+              <option value="ビジネス" ${book.genreName == 'ビジネス' ? 'selected' : ''}>ビジネス</option>
             </select>
           </div>
 
@@ -61,14 +65,14 @@
               <img src="${pageContext.request.contextPath}/images/pencil.png" alt="" class="icon-pencil">
               感想タグ
             </label>
-             <select name="emotions">
+            <select name="emotions">
               <option value="">選択してください</option>
-              <option>感動した</option>
-              <option>笑えた</option>
-              <option>考えさせられた</option>
-              <option>怖かった</option>
-              <option>勇気がでた</option>
-              </select>
+              <option value="感動した" ${book.reviewTag == '感動した' ? 'selected' : ''}>感動した</option>
+              <option value="笑えた" ${book.reviewTag == '笑えた' ? 'selected' : ''}>笑えた</option>
+              <option value="考えさせられた" ${book.reviewTag == '考えさせられた' ? 'selected' : ''}>考えさせられた</option>
+              <option value="怖かった" ${book.reviewTag == '怖かった' ? 'selected' : ''}>怖かった</option>
+              <option value="勇気がでた" ${book.reviewTag == '勇気がでた' ? 'selected' : ''}>勇気がでた</option>
+            </select>
           </div>
 
           <div class="form-row">
@@ -76,7 +80,7 @@
               <img src="${pageContext.request.contextPath}/images/pencil.png" alt="" class="icon-pencil">
               投稿日時
             </label>
-            <input type="date" name="date" readonly class="no-calendar">
+            <input type="date" name="date" value="${book.createDay != null ? book.createDay.substring(0,10) : ''}">
           </div>
 
           <div class="form-row">
@@ -86,8 +90,8 @@
             </label>
             <select name="status">
               <option value="">選択してください</option>
-              <option>読書中</option>
-              <option>読了</option>
+              <option value="読書中" ${book.status == '読書中' ? 'selected' : ''}>読書中</option>
+              <option value="読了" ${book.status == '読了' ? 'selected' : ''}>読了</option>
             </select>
           </div>
 
@@ -96,18 +100,18 @@
               <img src="${pageContext.request.contextPath}/images/pencil.png" alt="" class="icon-pencil">
               進捗
             </label>
-            <input type="text" name="progress">
+            <input type="text" name="progress" value="${book.progress}">
           </div>
         </div>
 
-        <!-- 右側：日付・画像・メモ -->
+        <!-- 右側 -->
         <div class="form-right">
           <div class="form-row">
             <label>
               <img src="${pageContext.request.contextPath}/images/pencil.png" alt="" class="icon-pencil">
               読み始めた日
             </label>
-            <input type="date" name="start_date">
+            <input type="date" name="start_date" value="${book.startedDay != null ? book.startedDay.substring(0,10) : ''}">
           </div>
 
           <div class="form-row">
@@ -115,57 +119,45 @@
               <img src="${pageContext.request.contextPath}/images/pencil.png" alt="" class="icon-pencil">
               読了日
             </label>
-            <input type="date" name="end_date">
+            <input type="date" name="end_date" value="${book.finishedDay != null ? book.finishedDay.substring(0,10) : ''}">
           </div>
 
           <div class="form-row">
             <label>
               <img src="${pageContext.request.contextPath}/images/pencil.png" alt="" class="icon-pencil">
-              画像を追加
+              表紙画像を選択
             </label>
-            <input type="file" name="image">
+            <select name="books_image">
+              <option value="">選択してください</option>
+              <option value="morocco.png" ${book.booksImage == 'morocco.png' ? 'selected' : ''}>アルマグリブ</option>
+              <option value="English.png" ${book.booksImage == 'English.png' ? 'selected' : ''}>OneTwoEnglish</option>
+              <option value="witch.png" ${book.booksImage == 'witch.png' ? 'selected' : ''}>星を辿る魔女の道標</option>
+              <option value="sword.png" ${book.booksImage == 'sword.png' ? 'selected' : ''}>剣の遣い</option>
+              <option value="ribirth.png" ${book.booksImage == 'ribirth.png.png' ? 'selected' : ''}>再生の記録</option>
+            </select>
           </div>
 
- 	<!-- 本の画像の中にメモを入力 -->
-	<div class="book-note-area">
-	  <!-- 右側：感想やメモ -->
-	  <div class="note-area">
-	    <div class="note-label">
-	      <img src="${pageContext.request.contextPath}/images/pencil.png" alt="" class="icon-pencil">
-	       <span>感想やメモ</span>
-	    </div>
-	    <div class="book-note-box">
-	      <img src="${pageContext.request.contextPath}/images/book.png" alt="book illustration" class="book-bg">
-	      <textarea name="memo" class="note-text" placeholder="感想やメモを書いてください..."></textarea>
-	    </div>
-	  </div>
-	</div>
-	
-	<button type="submit" class="btn-submit">編集する</button>
- 		
+          <div class="book-note-area">
+            <div class="note-area">
+              <div class="note-label">
+                <img src="${pageContext.request.contextPath}/images/pencil.png" alt="" class="icon-pencil">
+                <span>感想やメモ</span>
+              </div>
+              <div class="book-note-box">
+                <img src="${pageContext.request.contextPath}/images/book.png" alt="book illustration" class="book-bg">
+                <textarea name="memo" class="note-text">${book.text}</textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- 編集ボタン -->
+          <button type="submit" class="btn-submit">編集する</button>
+        </div>
       </form>
-
-	<div class="bottom-title">
-	  <img src="${pageContext.request.contextPath}/images/cup1.png" alt="ティーカップ" class="icon-cup">
-	  <span>編集</span>
-	</div>
     </div>
-</main>
-	
+  </main>
 
-	<!-- 投稿日時自動入力 -->
-	<script>
-	document.addEventListener("DOMContentLoaded", function() {
-	  const input = document.querySelector('input[name="date"]');
-	  if (input) {
-	    const d = new Date();
-	    input.value = d.toISOString().split('T')[0]; // ← 最短・確実な日付設定
-	  }
-	});
-	</script>
-	 <!-- 共通フッター -->
-	<jsp:include page="/common/footer.jsp" />
+  <!-- 共通フッター -->
+  <jsp:include page="/common/footer.jsp" />
 </body>
 </html>
-	
-
