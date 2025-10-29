@@ -46,35 +46,35 @@
               ジャンル
             </label>
             <select name="genre">
-              <option value="">選択してください</option>
-              <option value="ミステリー" ${book.genreName == 'ミステリー' ? 'selected' : ''}>ミステリー</option>
-              <option value="SF" ${book.genreName == 'SF' ? 'selected' : ''}>SF</option>
-              <option value="歴史" ${book.genreName == '歴史' ? 'selected' : ''}>歴史</option>
-              <option value="恋愛" ${book.genreName == '恋愛' ? 'selected' : ''}>恋愛</option>
-              <option value="ファンタジー" ${book.genreName == 'ファンタジー' ? 'selected' : ''}>ファンタジー</option>
-              <option value="ホラー" ${book.genreName == 'ホラー' ? 'selected' : ''}>ホラー</option>
-              <option value="ノンフィクション" ${book.genreName == 'ノンフィクション' ? 'selected' : ''}>ノンフィクション</option>
-              <option value="文学" ${book.genreName == '文学' ? 'selected' : ''}>文学</option>
-              <option value="自己啓発" ${book.genreName == '自己啓発' ? 'selected' : ''}>自己啓発</option>
-              <option value="ビジネス" ${book.genreName == 'ビジネス' ? 'selected' : ''}>ビジネス</option>
-            </select>
+			  <option value="">選択してください</option>
+			  <option value="1" ${book.genreId == 1 ? 'selected' : ''}>ミステリー</option>
+			  <option value="2" ${book.genreId == 2 ? 'selected' : ''}>SF</option>
+			  <option value="3" ${book.genreId == 3 ? 'selected' : ''}>歴史</option>
+			  <option value="4" ${book.genreId == 4 ? 'selected' : ''}>恋愛</option>
+			  <option value="5" ${book.genreId == 5 ? 'selected' : ''}>ファンタジー</option>
+			  <option value="6" ${book.genreId == 6 ? 'selected' : ''}>ホラー</option>
+			  <option value="7" ${book.genreId == 7 ? 'selected' : ''}>ノンフィクション</option>
+			  <option value="8" ${book.genreId == 8 ? 'selected' : ''}>文学</option>
+			  <option value="9" ${book.genreId == 9 ? 'selected' : ''}>自己啓発</option>
+			  <option value="10" ${book.genreId == 10 ? 'selected' : ''}>ビジネス</option>
+			</select>            
           </div>
 
           <div class="form-row">
-            <label>
-              <img src="${pageContext.request.contextPath}/images/pencil.png" alt="" class="icon-pencil">
-              感想タグ
-            </label>
-            <select name="emotions">
-              <option value="">選択してください</option>
-              <option value="感動した" ${book.reviewTag == '感動した' ? 'selected' : ''}>感動した</option>
-              <option value="笑えた" ${book.reviewTag == '笑えた' ? 'selected' : ''}>笑えた</option>
-              <option value="考えさせられた" ${book.reviewTag == '考えさせられた' ? 'selected' : ''}>考えさせられた</option>
-              <option value="怖かった" ${book.reviewTag == '怖かった' ? 'selected' : ''}>怖かった</option>
-              <option value="勇気がでた" ${book.reviewTag == '勇気がでた' ? 'selected' : ''}>勇気がでた</option>
-            </select>
-          </div>
-
+		  <label>
+		    <img src="${pageContext.request.contextPath}/images/pencil.png" alt="" class="icon-pencil">
+		    感想タグ
+		  </label>
+		  <select name="emotions">
+		    <option value="">選択してください</option>
+		    <option value="1" ${book.emotionsId == 1 ? 'selected' : ''}>感動した</option>
+		    <option value="2" ${book.emotionsId == 2 ? 'selected' : ''}>笑えた</option>
+		    <option value="3" ${book.emotionsId == 3 ? 'selected' : ''}>考えさせられた</option>
+		    <option value="4" ${book.emotionsId == 4 ? 'selected' : ''}>怖かった</option>
+		    <option value="5" ${book.emotionsId == 5 ? 'selected' : ''}>勇気がでた</option>
+		  </select>
+		</div>
+          
           <div class="form-row">
             <label>
               <img src="${pageContext.request.contextPath}/images/pencil.png" alt="" class="icon-pencil">

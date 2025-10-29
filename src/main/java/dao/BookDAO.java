@@ -98,7 +98,6 @@ public class BookDAO {
             WHERE 1=1
         """);
 
-        // 条件を動的に追加
         if (title != null && !title.isEmpty()) {
             sql.append(" AND b.title LIKE ?");
         }
@@ -146,40 +145,62 @@ public class BookDAO {
     }
 
     // ==============================
-    // 新規登録
+    // 新規登録（null安全・外部キー対応）
     // ==============================
     public boolean insert(Book book) {
         String sql = """
             INSERT INTO books (
-                emotions_id, genre_id, title, published_year, books_image, status,
-                progress, started_day, finished_day, text, create_day
+                title, published_year, genre_id, emotions_id, books_image,
+                status, progress, started_day, finished_day, text, create_day
             )
-            VALUES (
-                (SELECT id FROM emotions WHERE review_tag = ? LIMIT 1),
-                (SELECT id FROM genres WHERE genres_name = ? LIMIT 1),
-                ?, ?, ?, ?, ?, ?, ?, ?, ?
-            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """;
 
         try (Connection conn = DBManager.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setString(1, book.getReviewTag());
-            ps.setString(2, book.getGenreName());
-            ps.setString(3, book.getTitle());
-            ps.setString(4, book.getPublishedYear());
+            ps.setString(1, book.getTitle());
+            ps.setString(2, book.getPublishedYear());
+
+            // genre_id
+            if (book.getGenreId() == null) {
+                ps.setNull(3, java.sql.Types.INTEGER);
+            } else {
+                ps.setInt(3, book.getGenreId());
+            }
+
+            // emotions_id
+            if (book.getEmotionsId() == null) {
+                ps.setNull(4, java.sql.Types.INTEGER);
+            } else {
+                ps.setInt(4, book.getEmotionsId());
+            }
+
             ps.setString(5, book.getBooksImage());
             ps.setString(6, book.getStatus());
             ps.setInt(7, book.getProgress());
-            ps.setString(8, book.getStartedDay());
-            ps.setString(9, book.getFinishedDay());
+
+            // started_day
+            if (book.getStartedDay() == null || book.getStartedDay().isEmpty()) {
+                ps.setNull(8, java.sql.Types.DATE);
+            } else {
+                ps.setString(8, book.getStartedDay());
+            }
+
+            // finished_day
+            if (book.getFinishedDay() == null || book.getFinishedDay().isEmpty()) {
+                ps.setNull(9, java.sql.Types.DATE);
+            } else {
+                ps.setString(9, book.getFinishedDay());
+            }
+
             ps.setString(10, book.getText());
             ps.setString(11, book.getCreateDay());
 
             int rows = ps.executeUpdate();
             return rows > 0;
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
@@ -251,57 +272,71 @@ public class BookDAO {
     }
 
     // ==============================
-    // 本の情報を更新
+    // 更新処理（null安全）
     // ==============================
-    public boolean update(Book book) {String sql = """
-    	    UPDATE books SET
-            title = ?,
-            published_year = ?,
-            genre_id = ?,
-            emotions_id = ?,
-            status = ?,
-            progress = ?,
-            started_day = ?,
-            finished_day = ?,
-            text = ?,
-            create_day = ?
-        WHERE id = ?
-    """;
+    public boolean update(Book book) {
+        String sql = """
+            UPDATE books SET
+                title = ?,
+                published_year = ?,
+                genre_id = ?,
+                emotions_id = ?,
+                status = ?,
+                progress = ?,
+                started_day = ?,
+                finished_day = ?,
+                text = ?,
+                create_day = ?
+            WHERE id = ?
+        """;
 
-    try (Connection con = DBManager.getConnection();
-         PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = DBManager.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
 
-        ps.setString(1, book.getTitle());
-        ps.setString(2, book.getPublishedYear());
-        ps.setInt(3, book.getGenreId());
-        ps.setInt(4, book.getEmotionsId());
-        ps.setString(5, book.getStatus());
-        ps.setInt(6, book.getProgress());
+            ps.setString(1, book.getTitle());
+            ps.setString(2, book.getPublishedYear());
 
-        // started_day
-        if (book.getStartedDay() == null || book.getStartedDay().isEmpty()) {
-            ps.setNull(7, java.sql.Types.DATE);
-        } else {
-            ps.setString(7, book.getStartedDay());
+            // genre_id
+            if (book.getGenreId() == null) {
+                ps.setNull(3, java.sql.Types.INTEGER);
+            } else {
+                ps.setInt(3, book.getGenreId());
+            }
+
+            // emotions_id
+            if (book.getEmotionsId() == null) {
+                ps.setNull(4, java.sql.Types.INTEGER);
+            } else {
+                ps.setInt(4, book.getEmotionsId());
+            }
+
+            ps.setString(5, book.getStatus());
+            ps.setInt(6, book.getProgress());
+
+            // started_day
+            if (book.getStartedDay() == null || book.getStartedDay().isEmpty()) {
+                ps.setNull(7, java.sql.Types.DATE);
+            } else {
+                ps.setString(7, book.getStartedDay());
+            }
+
+            // finished_day
+            if (book.getFinishedDay() == null || book.getFinishedDay().isEmpty()) {
+                ps.setNull(8, java.sql.Types.DATE);
+            } else {
+                ps.setString(8, book.getFinishedDay());
+            }
+
+            ps.setString(9, book.getText());
+            ps.setString(10, book.getCreateDay());
+            ps.setInt(11, book.getId());
+
+            int result = ps.executeUpdate();
+            return result > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
-
-        // finished_day ←ここが重要！
-        if (book.getFinishedDay() == null || book.getFinishedDay().isEmpty()) {
-            ps.setNull(8, java.sql.Types.DATE);
-        } else {
-            ps.setString(8, book.getFinishedDay());
-        }
-
-        ps.setString(9, book.getText());
-        ps.setString(10, book.getCreateDay());
-        ps.setInt(11, book.getId());
-
-        int result = ps.executeUpdate();
-        return result > 0;
-
-    } catch (SQLException e) {
-        e.printStackTrace();
-        return false;
     }
-}
 }

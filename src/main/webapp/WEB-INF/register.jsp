@@ -42,19 +42,20 @@
               <img src="${pageContext.request.contextPath}/images/pencil.png" alt="" class="icon-pencil">
               ジャンル
             </label>
-            <select name="genre">
-              <option value="">選択してください</option>
-              <option>ミステリー</option>
-              <option>SF</option>
-              <option>歴史</option>
-              <option>恋愛</option>
-              <option>ファンタジー</option>
-              <option>ホラー</option>
-              <option>ノンフィクション</option>
-              <option>文学</option>
-              <option>自己啓発</option>
-              <option>ビジネス</option>
-            </select>
+            <!-- ジャンル -->
+			<select name="genre">
+			  <option value="">選択してください</option>
+			  <option value="1">ミステリー</option>
+			  <option value="2">SF</option>
+			  <option value="3">歴史</option>
+			  <option value="4">恋愛</option>
+			  <option value="5">ファンタジー</option>
+			  <option value="6">ホラー</option>
+			  <option value="7">ノンフィクション</option>
+			  <option value="8">文学</option>
+			  <option value="9">自己啓発</option>
+			  <option value="10">ビジネス</option>
+			</select>
           </div>
 
           <div class="form-row">
@@ -63,13 +64,13 @@
               感想タグ
             </label>
              <select name="emotions">
-              <option value="">選択してください</option>
-              <option>感動した</option>
-              <option>笑えた</option>
-              <option>考えさせられた</option>
-              <option>怖かった</option>
-              <option>勇気がでた</option>
-              </select>
+			  <option value="">選択してください</option>
+			  <option value="1">感動した</option>
+			  <option value="2">笑えた</option>
+			  <option value="3">考えさせられた</option>
+			  <option value="4">怖かった</option>
+			  <option value="5">勇気がでた</option>
+			</select>
           </div>
 
           <div class="form-row">

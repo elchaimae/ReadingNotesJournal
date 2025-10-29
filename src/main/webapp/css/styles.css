@@ -371,106 +371,123 @@ body {
   color: #fff;
 }
 /* ==============================
-   新規登録・編集フォーム
+   新規登録・編集フォーム（完全修正版）
 ============================== */
+
 .register-main {
   text-align: center;
-  padding: 40px 0 80px;
+  padding: 40px 0 100px; /* 下に余白を増やしてフッターと重ならないように */
 }
 
+/* 全体コンテナ */
 .form-container {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
+/* ==== メインフォーム ==== */
 .register-form {
   display: flex;
-  justify-content: center;   /* ← 左寄せ→中央寄せに変更 */
+  justify-content: center;       /* 中央寄せ */
   align-items: flex-start;
-  gap: 100px;                /* ← 左右の間隔を確保（必要に応じて80〜120pxで調整） */
-  width: 85%;                /* ← 幅を少し狭めて中央で安定 */
-  margin: 40px auto;         /* ← 左右中央寄せ */
+  gap: 120px;                    /* 左右フォームの間隔（重なり防止） */
+  width: 90%;
+  max-width: 1100px;             /* 幅の上限でバランス保持 */
+  margin: 40px auto;
   flex-wrap: nowrap;
-}
-/* 投稿日時欄の調整 */
-input[name="date"] {
-  width: 220px;            /* 他の入力欄と同じ幅に統一 */
-  padding: 6px;
-  border: 1px solid #000;
-  border-radius: 3px;
-  font-family: 'メイリオ', sans-serif;
-  font-size: 14px;
+  box-sizing: border-box;
 }
 
-/* 感想タグと投稿日時の間隔を少し広げる */
-.form-left .form-row:nth-of-type(4) {
-  margin-bottom: 18px; /* 感想タグの下に少し余白 */
-}
-
-
-/* 左フォーム（タイトル・出版年など） */
+/* ==== 左カラム（タイトル・出版年など） ==== */
 .form-left {
-  flex: 0 0 420px;
+  flex: 0 0 400px;               /* 固定幅にして安定配置 */
   text-align: left;
 }
 
-/* 右フォーム（メモや画像など） */
+/* ==== 右カラム（感想・画像など） ==== */
 .form-right {
-  flex: 0 0 480px;
+  flex: 0 0 460px;               /* 少し狭くして全体のバランス調整 */
   text-align: left;
+  margin-left: 10px;             /* 左に少し余白を追加（被り防止） */
 }
 
-/* ラベル（鉛筆と文字を一本の線で下線） */
+/* ==== 各行 ==== */
+.form-row {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-bottom: 14px;
+}
+
+/* ==== ラベル（鉛筆＋文字） ==== */
 .form-row label {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
   font-size: 14px;
   font-weight: normal;
-  white-space: nowrap;
   color: #000;
   border-bottom: 1px solid #000;
   padding-bottom: 2px;
   font-family: 'メイリオ', 'Meiryo', sans-serif;
+  white-space: nowrap;
+  /* 下線の長さを文字＋余白分に合わせて少し伸ばす */
+  min-width: 120px;  /* ← 元はauto。数値で固定することで見た目が揃う */
+  justify-content: flex-start;; 
+  padding-right: 0px; 
 }
 
-/* 鉛筆アイコン */
+/* ==== 鉛筆アイコン ==== */
 .icon-pencil {
   width: 18px;
   height: 18px;
   vertical-align: middle;
-  margin: 0;
+  margin-right: 4px;
+  flex-shrink: 0;
 }
 
-/* 入力欄 */
+/* ==== 入力欄統一デザイン ==== */
 input[type="text"],
 input[type="date"],
 select,
 textarea {
-  width: 220px;
+  width: 230px;
   padding: 6px;
   border: 1px solid #000;
   border-radius: 3px;
   font-family: 'メイリオ', sans-serif;
+  font-size: 14px;
+  box-sizing: border-box;
 }
 
+/* 投稿日時欄（統一幅） */
+input[name="date"] {
+  width: 230px;
+}
+
+/* ==== テキストエリア ==== */
 textarea {
   resize: none;
 }
 
-/* 本画像とメモ */
-.book-note-area {
+/* ==== 感想タグと投稿日時の間隔 ==== */
+.form-left .form-row:nth-of-type(4) {
+  margin-bottom: 18px;
+}
+
+/* ==== 本画像＋メモエリア ==== */
+.book-note-box {
   position: relative;
-  width: 400px;
-  margin-top: 20px;
+  width: 100%;
+  max-width: 480px;
+  margin-top: 10px;
 }
 
 .book-bg {
   width: 100%;
+  height: auto;
+  border-radius: 8px;
   display: block;
-  border: 1px solid #ccc;
-  border-radius: 6px;
 }
 
 .note-text {
@@ -481,31 +498,32 @@ textarea {
   height: 65%;
   background: transparent;
   border: none;
-  font-size: 10px;
+  font-size: 13px;
   font-family: 'メイリオ', 'Meiryo', sans-serif;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #222;
   resize: none;
   outline: none;
-  padding: 4px;
+  padding: 6px;
+  overflow-y: auto;
 }
 
 .note-text::placeholder {
-  color: #aaa;
+  color: rgba(120, 120, 120, 0.6);
 }
 
-/* 登録ボタン */
+/* ==== 登録・編集ボタン ==== */
 .btn-submit {
   background-color: #C00000;
   color: #fff;
   border: none;
   border-radius: 8px;
-  padding: 8px 22px;
+  padding: 10px 20px;
   font-size: 15px;
   font-family: 'Azuki', 'メイリオ', sans-serif;
   cursor: pointer;
   display: block;
-  margin: 25px auto 0 auto;
+  margin: 30px auto 0 auto;
   width: fit-content;
   transition: 0.3s ease;
 }
@@ -515,39 +533,14 @@ textarea {
   transform: translateY(-2px);
 }
 
-
-/* ==============================
-   登録・編集ボタン
-============================== */
-.btn-submit {
-  background-color: #C00000;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;                /* ← ボタンのサイズ */
-  font-size: 15px;                  
-  font-family: 'Azuki', 'メイリオ', sans-serif;  
-  cursor: pointer;
-  display: block;                  
-  margin: 20px auto 0 auto;         
-  width: fit-content;              
-  transition: 0.3s ease;
-}
-
-.btn-submit:hover {
-  background-color: #a00000;
-  transform: translateY(-2px);
-}
-
-/* ==============================
-   入力フォーム 横並びレイアウト
-============================== */
-.form-row {
+/* ==== フォームの余白バランス調整 ==== */
+.form-left,
+.form-right {
   display: flex;
-  align-items: center;
-  gap: 10px;                /* ラベルと入力欄の間隔 */
-  margin-bottom: 10px;
+  flex-direction: column;
+  gap: 20px; /* 各行の間に余白を */
 }
+
 
 .form-row label {
   display: inline-flex;          
@@ -814,69 +807,73 @@ textarea {
   text-align: center !important;
   z-index: auto !important;
 }
+
 /* ==============================
-   本の詳細ページ
+   詳細ページ（画像＋情報 横並び）
 ============================== */
 .detail-flex {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  gap: 80px;
-  flex-wrap: wrap;
-  margin-top: 40px;
+  gap: 60px;
+  flex-wrap: wrap;            /* ← 可変対応（画面が狭くなっても崩れにくい） */
+  max-width: 1000px;
+  padding: 0 20px;
+  margin: 40px auto;
+  box-sizing: border-box;
 }
 
-/* 左：本の情報 */
+/* 左：表紙画像＆本の情報 */
 .detail-left {
+  flex: 0 0 280px;
   text-align: left;
 }
 
-.book-card {
+.detail-left .book-card {
   text-align: center;
   margin-bottom: 20px;
 }
 
-.detail-image {
-  width: 240px;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+.detail-left .detail-image {
+  width: 100%;
+  max-width: 240px;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  display: block;
+  margin: 0 auto;
 }
 
-.book-title {
-  margin-top: 8px;
-  font-size: 12px;
+.detail-left .book-title {
+  font-weight: bold;
+  font-size: 1rem;
+  margin-top: 10px;
+  color: #222;
+  text-align: center;
 }
 
-/* ▼ 本の情報項目に下線追加 */
-.book-info p {
-  margin: 10px 0;
+.detail-left .book-info p {
+  margin: 6px 0;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 4px;
+  line-height: 1.8;
+  font-size: 0.95rem;
   display: flex;
   align-items: center;
   gap: 6px;
-  padding-bottom: 4px;
-  border-bottom: 1px solid #000; 
-  width: 280px;
-  font-size: 14px;
-  color: #222;
-  font-family: "メイリオ", sans-serif;
 }
 
-
-/* 鉛筆アイコン */
 .icon-pencil {
   width: 18px;
   height: 18px;
+  vertical-align: middle;
+  margin-right: 6px;
   flex-shrink: 0;
 }
 
-/* 下線を全体的に整える */
-.book-info {
-  margin-top: 10px;
-  padding-left: 5px;
-}
-
-/* 右：感想・メモ（本の中に） */
+/* 右：感想・メモ部分 */
 .detail-right {
+  flex: 1;
+  min-width: 450px;
   text-align: center;
 }
 
@@ -889,80 +886,62 @@ textarea {
   margin-bottom: 10px;
 }
 
-/* 本の背景と感想配置 */
 .book-note-box {
   position: relative;
-  width: 550px;
-  height: 340px;
-  margin: 0 auto;
+  display: inline-block;
+  width: 100%;
+  max-width: 520px;
+  height: 320px;
 }
 
 .book-bg {
   width: 100%;
   height: 100%;
-  display: block;
+  object-fit: contain;
 }
 
 .note-text {
   position: absolute;
-  top: 65px;
-  left: 120px;
-  right: 120px;
-  bottom: 55px;
+  top: 60px;
+  left: 60px;
+  right: 60px;
+  bottom: 60px;
   overflow-y: auto;
-  white-space: pre-wrap;
+  font-size: 0.9rem;
   text-align: left;
-  font-size: 14px;
   line-height: 1.6;
   color: #333;
-  font-family: "メイリオ", sans-serif;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
 }
-/* ==============================
-   本の詳細ページタイトル（下配置）
-============================== */
 
-/* 詳細タイトル全体 */
+/* ==============================
+   本の詳細タイトル（ティーカップ＋下線付き）
+============================== */
 .detail-bottom-title {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  margin-top: 60px;     
-  border-bottom: 2px solid #000; 
+  gap: 8px;
+  margin-top: 50px;
+  text-align: center;
 }
 
-/* ティーカップアイコン */
 .detail-bottom-title img.icon-cup {
-  width: 36px;
-  height: 36px;
+  width: 32px;         /* ← 小さめのカップに調整 */
+  height: auto;
+  vertical-align: middle;
+  object-fit: contain;
 }
 
-/* タイトル文字 */
+/* 文字だけに下線を引く */
 .detail-bottom-title span {
   font-size: 20px;
   font-family: "メイリオ", sans-serif;
-}
-input[type="date"] {
-  width: 220px;  /* 他の input[type=text] と合わせる */
-  padding: 6px;
-  border: 1px solid #000;
-  border-radius: 3px;
-  font-family: 'メイリオ', sans-serif;
-  box-sizing: border-box;
-}
-.section-title {
-  text-align: center;
-  color: #a00000;
-  font-size: 1.5em;
-  margin: 30px 0 10px;
-  font-weight: bold;
-}
-
-.no-result {
-  text-align: center;
-  color: #555;
-  font-size: 1.1em;
-  margin: 10px 0 30px;
+  border-bottom: 2px solid #000;  /* ← 下線 */
+  padding-bottom: 3px;            /* ← 下線と文字の間隔 */
 }
 
 

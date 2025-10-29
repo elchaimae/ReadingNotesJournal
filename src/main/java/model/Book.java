@@ -5,8 +5,8 @@ import java.io.Serializable;
 public class Book implements Serializable {
 
     private int id;
-    private int emotionsId;
-    private int genreId;
+    private Integer emotionsId;
+    private Integer genreId;
     private String title;
     private String publishedYear;  // ← String型に変更済み（西暦でも日付でもOK）
     private String status;
@@ -28,22 +28,23 @@ public class Book implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
-
-    public int getEmotionsId() {
-        return emotionsId;
-    }
-
-    public void setEmotionsId(int emotionsId) {
-        this.emotionsId = emotionsId;
-    }
-
-    public int getGenreId() {
+    
+    public Integer getGenreId() {
         return genreId;
     }
 
-    public void setGenreId(int genreId) {
+    public void setGenreId(Integer genreId) {
         this.genreId = genreId;
     }
+
+    public Integer getEmotionsId() {
+        return emotionsId;
+    }
+
+    public void setEmotionsId(Integer emotionsId) {
+        this.emotionsId = emotionsId;
+    }
+
 
     public String getTitle() {
         return title;

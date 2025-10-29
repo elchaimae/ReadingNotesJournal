@@ -13,7 +13,6 @@ import dao.BookDAO;
 import model.Book;
 
 @WebServlet("/EditServlet")
-
 public class EditServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -47,7 +46,9 @@ public class EditServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
 
         try {
-           
+            // -------------------------------
+            // パラメータ取得
+            // -------------------------------
             String idStr = request.getParameter("id");
             if (idStr == null || idStr.isBlank()) {
                 throw new IllegalArgumentException("IDが取得できません");
@@ -55,17 +56,26 @@ public class EditServlet extends HttpServlet {
             int id = Integer.parseInt(idStr);
 
             String title = request.getParameter("title");
-
-          
-         // 出版年（文字列として扱う）
-         // 出版年（日付形式のまま文字列として保持）
             String publishedYear = request.getParameter("published_year");
             if (publishedYear != null && publishedYear.isEmpty()) {
                 publishedYear = null;
             }
-            // 文字列項目
-            String genreName = request.getParameter("genre");
-            String reviewTag = request.getParameter("emotions");
+
+            // ▼ 外部キー（ジャンルID）
+            String genreStr = request.getParameter("genre");
+            Integer genreId = null;
+            if (genreStr != null && !genreStr.isEmpty()) {
+                genreId = Integer.parseInt(genreStr);
+            }
+
+            // ▼ 外部キー（感想タグID）
+            String emotionStr = request.getParameter("emotions");
+            Integer emotionId = null;
+            if (emotionStr != null && !emotionStr.isEmpty()) {
+                emotionId = Integer.parseInt(emotionStr);
+            }
+
+            // 日付・ステータス・進捗
             String startedDay = request.getParameter("start_date");
             String finishedDay = request.getParameter("end_date");
             String status = request.getParameter("status");
@@ -83,31 +93,35 @@ public class EditServlet extends HttpServlet {
 
             String createDay = request.getParameter("date");
             String text = request.getParameter("memo");
-
-            // 画像アップロード
             String fileName = request.getParameter("books_image");
-          
+
+            // -------------------------------
             // Bookオブジェクト作成
+            // -------------------------------
             Book book = new Book();
             book.setId(id);
             book.setTitle(title);
             book.setPublishedYear(publishedYear);
-            book.setGenreName(genreName);
-            book.setReviewTag(reviewTag);
+            book.setGenreId(genreId);
+            book.setEmotionsId(emotionId);
             book.setStartedDay(startedDay);
             book.setFinishedDay(finishedDay);
             book.setStatus(status);
             book.setProgress(progress);
             book.setCreateDay(createDay);
             book.setText(text);
+
             if (fileName != null) {
                 book.setBooksImage(fileName);
             }
 
+            // -------------------------------
             // 更新実行
+            // -------------------------------
             BookDAO dao = new BookDAO();
             boolean result = dao.update(book);
             System.out.println("★ dao.update 実行結果: " + result + " (book.id=" + book.getId() + ")");
+
             if (result) {
                 // 編集後は詳細ページへ遷移
                 response.sendRedirect(request.getContextPath() + "/BookDetailServlet?id=" + id);

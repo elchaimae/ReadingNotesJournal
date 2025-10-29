@@ -14,9 +14,10 @@
 
   <main class="register-main">
     <div class="form-container">
-      <!-- タイトル -->
 
+      <!-- 本詳細（左：情報／右：メモ） -->
       <div class="detail-flex">
+
         <!-- 左カラム：本の情報 -->
         <div class="detail-left">
           <div class="book-card">
@@ -25,13 +26,17 @@
             <p class="book-title">${book.title}</p>
           </div>
 
-	     <c:choose>
-		  <c:when test="${not empty book.publishedYear}">
-		    ${book.publishedYear}
-		  </c:when>
-		  <c:otherwise>不明</c:otherwise>
-		</c:choose>
-         
+          <div class="book-info">
+            <p>
+              <img src="${pageContext.request.contextPath}/images/pencil.png" class="icon-pencil">
+              出版年：
+              <c:choose>
+                <c:when test="${not empty book.publishedYear}">
+                  ${book.publishedYear}
+                </c:when>
+                <c:otherwise>不明</c:otherwise>
+              </c:choose>
+            </p>
 
             <p><img src="${pageContext.request.contextPath}/images/pencil.png" class="icon-pencil"> ジャンル： ${book.genreName}</p>
             <p><img src="${pageContext.request.contextPath}/images/pencil.png" class="icon-pencil"> 感想タグ： ${book.reviewTag}</p>
@@ -41,7 +46,8 @@
             <p><img src="${pageContext.request.contextPath}/images/pencil.png" class="icon-pencil"> 読了日： ${book.finishedDay}</p>
             <p><img src="${pageContext.request.contextPath}/images/pencil.png" class="icon-pencil"> 投稿日時： ${book.createDay}</p>
           </div>
-        </div>
+        </div> 
+
 
         <!-- 右カラム：感想やメモ -->
         <div class="detail-right">
@@ -62,17 +68,19 @@
               </c:if>
             </div>
           </div>
-        </div> <!-- detail-right 終了 -->
-      </div> <!-- detail-flex 終了 -->
+        </div> 
+
+      </div> 
+
 
       <!-- 下部タイトル（ティーカップ付き） -->
       <div class="detail-bottom-title">
         <img src="${pageContext.request.contextPath}/images/cup1.png" alt="ティーカップ" class="icon-cup">
         <span>本の詳細</span>
       </div>
-    </div> <!-- form-container 終了 -->
-  </main>
 
+    </div> 
+  </main>
   <!-- 共通フッター -->
   <jsp:include page="/common/footer.jsp" />
 </body>
