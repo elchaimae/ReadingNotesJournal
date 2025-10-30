@@ -108,7 +108,7 @@ http://localhost:8080/ReadingNotesJournal/
 
 ## 👩‍💻 Developer
 
-エルコルテ 智恵美（Chiemi Elcorte）
+エルコルテ 智恵美（Chiemi Elkholtei）
 📍 福岡在住 | 💬 Java / MySQL / HTML / CSS / JavaScript 学習中
 
 「読書を通して感じた世界を、デジタルでも大切に残したい」
